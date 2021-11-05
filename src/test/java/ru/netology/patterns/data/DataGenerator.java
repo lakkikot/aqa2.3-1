@@ -1,8 +1,6 @@
 package ru.netology.patterns.data;
 
 import com.github.javafaker.Faker;
-import lombok.Value;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -11,6 +9,7 @@ import java.util.Random;
 public class DataGenerator {
 
     public static String generateDate(int days) {
+        // дата через передаваемое кол-во дней в формате ДД.ММ.ГГГГ (как в поле "Календарь")
         String date = LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         return date;
     }
@@ -23,25 +22,15 @@ public class DataGenerator {
         return cities[rnd];
     }
 
-    public static String generateName(String locale) {
-        // TODO: добавить логику для объявления переменной name и задания её значения, для генерации можно
-        // использовать Faker
-        Faker faker = new Faker(new Locale(locale));
+    public static String generateName() {
+        Faker faker = new Faker(new Locale("ru"));
         String name = faker.name().fullName();
         return name;
     }
 
-    public static String generatePhone(String locale) {
-        // TODO: добавить логику для объявления переменной phone и задания её значения, для генерации можно
-        Faker faker = new Faker(new Locale(locale));
+    public static String generatePhone() {
+        Faker faker = new Faker(new Locale("ru"));
         String phone = faker.phoneNumber().phoneNumber();
         return phone;
-    }
-
-    @Value
-    public static class UserInfo {
-        String city;
-        String name;
-        String phone;
     }
 }

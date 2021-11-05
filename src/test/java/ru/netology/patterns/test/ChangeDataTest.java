@@ -5,10 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 import ru.netology.patterns.data.DataGenerator;
-
 import java.time.Duration;
-
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.open;
@@ -23,16 +20,16 @@ public class ChangeDataTest {
     @Test
     void shouldBookMeetingAndChangeData() {
 
-        int daysBeforeFirstMeeting = 4;
-        int daysBeforeSecondMeeting = 7;
-        var firstMeeting = DataGenerator.generateDate(daysBeforeFirstMeeting);
-        var secondMeeting = DataGenerator.generateDate(daysBeforeSecondMeeting);
+        int daysBeforeFirstMeeting = 4; // дни до первой встречи
+        int daysBeforeSecondMeeting = 7; // дни до второй встречи
+        var firstMeeting = DataGenerator.generateDate(daysBeforeFirstMeeting); // дата первой встречи
+        var secondMeeting = DataGenerator.generateDate(daysBeforeSecondMeeting); // дата второй встречи
 
         $("[data-test-id=city] input").setValue(DataGenerator.generateCity("ru"));
 
         $("[data-test-id='date'] input").doubleClick().sendKeys(Keys.DELETE, firstMeeting);
-        $("[name='name']").setValue(DataGenerator.generateName("ru"));
-        $("[name='phone']").setValue(DataGenerator.generatePhone("ru"));
+        $("[name='name']").setValue(DataGenerator.generateName());
+        $("[name='phone']").setValue(DataGenerator.generatePhone());
         $(withText("Я соглашаюсь с условиями обработки и использования моих персональных данных")).click();
         $(withText("Запланировать")).click();
 
@@ -42,8 +39,11 @@ public class ChangeDataTest {
         //меняем дату
         $("[data-test-id='date'] input").doubleClick().sendKeys(Keys.DELETE, secondMeeting);
         $(withText("Запланировать")).click();
+
         //есть всплывающее окно с кнопкой?
         $(withText("У вас уже запланирована встреча на другую дату. Перепланировать?")).shouldBe(visible);
+
+        // жмем на кнопку
         $(Selectors.byText("Перепланировать")).click();
 
         //проверка, что встреча перепланирована
